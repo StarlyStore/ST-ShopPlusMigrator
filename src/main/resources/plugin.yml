@@ -1,0 +1,15 @@
+name: ST-ShopPlusMigrator
+main: net.starly.spm.ShopPlusMigratorMain
+author: Starly Team
+website: http://starly.kr/
+
+description: ShopPlusMigrator Plugin.
+
+softdepend:
+  - ST-Core
+
+version: 1.0
+api-version: 1.13
+
+commands:
+  process:
