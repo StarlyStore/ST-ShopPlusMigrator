@@ -57,20 +57,11 @@ public class ShopPlusMigratorMain extends JavaPlugin implements CommandExecutor 
         new Config("", this).getFileNames().forEach(shopName -> {
             Config config = new Config(shopName, this);
 
-//            Map<Pair<Integer, Integer>, ItemStack> decoded = decode((byte[]) config.getObject("shop.items"), HashMap.class);
-//            final int[] pg2Slot = {0};
-//            new HashMap<>(decoded).forEach((slotData, itemStack) -> {
-//                if (slotData.getSecond() > 44) {
-//                    decoded.remove(new Pair<>(1, slotData.getSecond()));
-//                    decoded.put(new Pair<>(2, pg2Slot[0]), itemStack);
-//                    pg2Slot[0]++;
-//                }
-//            });
-//            config.setObject("shop.items", encode(decoded));
-
-            byte[] encoded = (byte[]) config.getObject("shop.items");
-            Map<Integer, ItemStack> decoded = decode(encoded, Map.class);
+            Map<Integer, ItemStack> decoded = decode((byte[]) config.getObject("shop.items"), HashMap.class);
             Map<Pair<Integer, Integer>, ItemStack> migrated = new HashMap<>();
+            decoded.forEach((slot, itemStack) -> migrated.put(new Pair<>(1, slot), itemStack));
+            config.setObject("shop.items", encode(migrated));
+
             ConfigurationSection stocksSection = config.getConfigurationSection("shop.stocks");
             config.createSection("shop.stocks");
             config.setObject("shop.stocks.1", stocksSection);
